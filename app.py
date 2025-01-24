@@ -21,8 +21,7 @@ def recommend(mov):
 
     rec_mov=[]
     for i in movie_list:
-        movie_id=movies.iloc[i[0]].id
-        rec_mov.append(movies.iloc[movie_id].title)
+        rec_mov.append(movies.iloc[i[0]].title)
 
     return rec_mov
 
@@ -33,19 +32,17 @@ st.title("Movie Recommender System")
 movie_name=st.selectbox("Select Movie",movies['title'].values)
 
 if st.button("Recommend"):
-    rec,pos=recommend(movie_name)
+    rec=recommend(movie_name)
 
-    st.subheader("Top 5 Movies based on {}".format(movie_name))
+    st.subheader('Top 5 Movies based on "{}" '.format(movie_name))
+
+    base_url="https://www.google.com/search?q={} movie"
+
     
-    col1,col2,col3,col4,col5=st.columns(2)
 
-    with col1:
-        st.text(rec[0])
-    with col2:
-        st.text(rec[1])
-    with col3:
-        st.text(rec[2])
-    with col4:
-        st.text(rec[3])
-    with col5:
-        st.text(rec[4])
+    for movie in rec:
+        col1,col2=st.columns([0.8, 0.2])
+        with col1:
+            st.text(movie)
+        with col2:
+            st.link_button("Know More",base_url.format(movie))
